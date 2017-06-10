@@ -1,0 +1,20 @@
+{
+  "town": [
+    "bank",
+    "forest",
+    "weapons",
+    "inn"
+  ],
+  "bank": [
+    "town"
+  ],
+  "forest": [
+    "town"
+    ],
+  "inn":[
+    "town"
+  ],
+  "weapons":[
+    "town"
+  ]
+}
