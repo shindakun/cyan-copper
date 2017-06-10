@@ -1,0 +1,36 @@
+/*
+  ENDESGA~16  (EDG16):
+  #e4a672   #b86f50   #743f39   #3f2832   #9e2835   #e53b44   #fb922b   #ffe762   
+  #63c64d   #327345   #193d3f   #4f6781   #afbfd2   #ffffff   #2ce8f4   #0484d1
+
+  #181425
+*/
+
+body {
+  font-family: 'VT323', monospace;
+  background: #3f2832;
+  color: #fff;
+}
+
+a {
+  color: #0484d1;
+}
+
+a:visited {
+  color: #0484d1;
+}
+
+a:hover {
+  color: #2ce8f4;
+}
+
+footer {
+  font-family: 'VT323', monospace;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #181425;
+  text-align: center;
+}
