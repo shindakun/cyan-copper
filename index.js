@@ -13,6 +13,7 @@ const TwitterStrategy = require('passport-twitter').Strategy;
 
 const locations = require('./data/locations.json');
 const areas = require('./data/areas.json');
+const events = require('./data/events.json');
 
 // the process.env values are set in .env
 passport.use(new TwitterStrategy({
@@ -104,32 +105,64 @@ app.get('/success', ensureAuthenticated,
     }
 });
 
+const rand = (min, max) => 
+  Math.random() * (max - min) + min;
+
 app.get('/:loc', ensureAuthenticated, function (request, response) {
   // grab location from requested url.
+  let orgDest = request.params.loc;
   let loc = request.params.loc;
-  
+  let ran = Math.floor(rand(0,2));
+
+  if (ran === 1) {
+//      loc = 'event';    
+  }
+    
   if (!locations.hasOwnProperty(loc)) {
     response.status('404').send('404 not found');  
   } else {
     let char = request.session.char;
     // check old char.location vs new to make sure we can actually move
-    if (loc === char.location || locations[loc].indexOf(char.location) !== -1) {
-        //loc = 'event';
+    if (request.session.char.isEvent || loc === 'event' || loc === char.location || locations[loc].indexOf(char.location) !== -1) {
+      console.log(loc);
       switch(loc) {
         case 'event':
-          loc = char.location;
+          
+          // Set actual destination
+          if (!request.session.char.isEvent) {
+            request.session.char.isEvent = true;
+            request.session.char.dest = orgDest;            
+          }
+
           // update our location to the new location.
           request.session.char.location = loc;
-
+          request.session.char.eventid = 0;
+          
           // render event view and send along the character and actions
           response.render('event', {
             char: request.session.char,
-            travel: locations[char.location],
-            description: 'This is an event.'
+            travel: events[0].choices,
+            description: events[0].description
           });
-
           break;
-
+ /*         
+          case 'fight':
+            request.session.char.isEvent = false;
+            response.render('event', {
+              char: request.session.char,
+              travel: locations[request.session.char.dest],
+              description: events[0].results.fight
+            });
+            break;
+          case 'flee':
+            request.session.char.isEvent = false;
+            response.render('event', {
+              char: request.session.char,
+              travel: locations[request.session.char.dest],
+              description: events[0].results.flee
+            });
+            break;
+*/
         default:
           // update our location to the new location.
           request.session.char.location = loc;
